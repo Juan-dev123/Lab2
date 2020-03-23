@@ -4,10 +4,10 @@ public class Ship{
     //Attributes
     private String name;
     private int weightLoads;
-    private String[] typeLoads;
+    private String typeLoads;
     private int quantityLoads;
 
-    public Ship(String name, int weigthLoads, String[] typeLoads, int quantityLoads){
+    public Ship(String name, int weigthLoads, String typeLoads, int quantityLoads){
         this.name=name;
         this.weightLoads=weigthLoads;
         this.typeLoads=typeLoads;
@@ -32,4 +32,5 @@ public class Ship{
         //FALTAAAAAAA UN MONTONNNNNN
 
     }
+   
 }
