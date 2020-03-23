@@ -7,7 +7,7 @@ public class Client{
 	private int totalPrice;
 	private String typeClient;
 
-	public Cliente(String name, int nrm, String dateRegister, int quantityKilos, int totalPrice, String typeClient){
+	public Client(String name, int nrm, String dateRegister, int quantityKilos, int totalPrice, String typeClient){
 		this.name=name;
 		this.nrm=nrm;
 		this.dateRegister=dateRegister;
@@ -15,9 +15,14 @@ public class Client{
 		this.totalPrice=totalPrice;
 		this.typeClient=typeClient;
 	}
-	public static int addPrice(int price){
-		totalPrice+=price;
+	public void addPrice(int price){
+		this.totalPrice+=price;
 	}
-	public static void updateType()
+	public void updateType(String typeCategory){
+		this.typeClient=typeCategory;
+	}
+	public int totalPay(){
+		return totalPrice;
+	}
 	
 }
