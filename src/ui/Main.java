@@ -5,24 +5,54 @@ import model.Company;
 public class Main{
 	//Relations
 	private Company company;
-	//
-	public static Scanner read=new Scanner(System.in);
+	private Scanner read;
 
 	//Methods
 	public static void main(String args[]){
-		Scanner read=new Scanner(System.in);
+		Main main=new Main();	
+		main.menu();
+	}
+
+	Main(){
+		read=new Scanner(System.in);
 		System.out.println("Enter the name of your company");
 		String name=read.nextLine();
-		Main main=new Main(name);	
-		main.addClient();
-		main.company.imprimirCliente(4); //CORREGIRRRRRRRRRRRRRR Y QUITARRRRR
-
-	}
-
-	Main(String name){
 		company=new Company(name);
 	}
-
+	/**
+	 * Name: menu
+	 * It prints the menu on the console.
+	 */
+	public void menu(){
+		int option;
+		boolean quit=false;
+		while(!quit){
+			System.out.println("Choose a number:");
+			System.out.println("1 Register the clients");
+			option=read.nextInt();
+			read.nextLine();
+			switch (option) {
+				case 1:
+					addClient();
+					break;
+			}
+			String answer;
+			System.out.print("Do you want to run another app?, yes or not: ");
+			answer = read.nextLine();
+			while(!((answer.equalsIgnoreCase("not") || answer.equalsIgnoreCase("yes")))){
+				System.out.print("There are only two options, yes or not: ");	
+				answer = read.nextLine();
+			}
+			if(answer.equalsIgnoreCase("not")){
+				quit = true;
+			}
+		}
+		
+	}
+	/**
+	 * Name: addClient
+	 * It registers and adds a client
+	 */
 	public void addClient(){
 		String name;
 		int crn;
@@ -38,7 +68,7 @@ public class Main{
 		date=read.nextLine();
 		System.out.print("Enter the type of client:");
 		typeClient=read.nextLine();
-		System.out.println(company.addClient(name, crn, date, typeClient));
+		System.out.println(company.registerClient(name, crn, date, typeClient));
 	}
 
 }
