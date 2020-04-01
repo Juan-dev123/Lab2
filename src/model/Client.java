@@ -1,11 +1,22 @@
 package model;
 public class Client{
+    //Constants
+    public static final int NORMAL=1;
+    public static final int SILVER=2;
+    public static final int GOLD=3;
+    public static final int PLATINUM=4;
+    public static final double DISCOUNT_S=0.015;
+    public static final double DISCOUNT_O=0.03;
+    public static final double DISCOUNT_P=0.05;
+
     //Atributes
     private String name;
     private int crn;
     private String date;
-    private int quantityKilos;
+    private int quantityKilosLoad;
+    private int totalPayLoad;
     private int totalPay;
+    private int totalQuantityKilos;
     private String typeClient;
 
     public Client(String name, int crn, String date, String typeClient){
@@ -21,38 +32,15 @@ public class Client{
         return crn;
     }
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
+    public void updateKilos(int quantityKilos){
+        this.quantityKilosLoad+=quantityKilos;
+        this.totalQuantityKilos+=quantityKilos; 
     }
 
-    /**
-     * @return the date
-     */
-    public String getDate() {
-        return date;
+    public void updatePayment(int pay){
+        totalPayLoad+=pay;
+        totalPay+=pay;
     }
 
-    /**
-     * @return the quantityKilos
-     */
-    public int getQuantityKilos() {
-        return quantityKilos;
-    }
 
-    /**
-     * @return the totalPay
-     */
-    public int getTotalPay() {
-        return totalPay;
-    }
-
-    /**
-     * @return the typeClient
-     */
-    public String getTypeClient() {
-        return typeClient;
-    }
 }

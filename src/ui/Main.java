@@ -29,11 +29,15 @@ public class Main{
 		while(!quit){
 			System.out.println("Choose a number:");
 			System.out.println("1 Register the clients");
+			System.out.println("2 Upload a load to the ship");
 			option=read.nextInt();
 			read.nextLine();
 			switch (option) {
 				case 1:
 					addClient();
+					break;
+				case 2:
+					addLoad();
 					break;
 			}
 			String answer;
@@ -69,6 +73,36 @@ public class Main{
 		System.out.print("Enter the type of client:");
 		typeClient=read.nextLine();
 		System.out.println(company.registerClient(name, crn, date, typeClient));
+	}
+
+	public void addLoad(){
+		int option;
+		int numBoxes;
+		int weightBox;
+		int typeLoad;
+
+		System.out.println("Choose the owner of the load");
+		printClients();
+		option=read.nextInt();
+		System.out.println("Enter the number of boxes");
+		numBoxes=read.nextInt();
+		System.out.println("Enter the weight in grams of a box");
+		weightBox=read.nextInt();
+		System.out.println("Choose the type of load");
+		System.out.println("1 Perishable");
+		System.out.println("2 No Perishable");
+		System.out.println("3 Dangerous");
+		typeLoad=read.nextInt();
+		System.out.println(company.addLoad(numBoxes, weightBox, typeLoad, company.getClients()[option]));
+		
+	}
+
+	public void printClients(){
+		for(int i=0; i<company.getClients().length && company.getClients()[i]!=null; i++){
+			System.out.printf("%d ", i+1);
+			System.out.println(company.getClients()[i].getName());
+			System.out.println("  "+company.getClients()[i].getCrn());
+		}
 	}
 
 }

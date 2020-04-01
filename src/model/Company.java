@@ -8,15 +8,17 @@ public class Company{
 
     //Relations
     private Client[] clients;
+    private Ship ship1;
 
     //Methods
     public Company(String name){
         this.name=name;
         clients=new Client[NUM_CLIENTS];
+        ship1=new Ship("El Pirata");
     }
 
    //Requirement 1
-   //Register a client
+   //Register a client         //Revisa este requerimientooooo
 
    /**
     * Name: registerClient
@@ -38,13 +40,46 @@ public class Company{
             }else{
                 int positionAvailable=getPositionEmpty(clients);
                 clients[positionAvailable]=new Client(name, crn, date, typeClient);
-                System.out.println(positionAvailable); 
                 message="The client with the Commercial Register Number:"+crn+" has been registered successfully";
             } 
         }
         return message;
     }
 
+    //Requirement 2
+    //Register a load to the ship  //Revisa este requerimientoooooooo
+
+    public String addLoad(int numBoxes, int weightBox, int typeLoad, Client client){
+        String message=""; 
+        boolean createNewLoad=true;
+        int requiredWeight=convertGtoK(numBoxes*weightBox);
+        //Evaluate if there is space
+        if(Ship.MAX_WEIGHT-ship1.getTotalWeightLoads() < requiredWeight){
+            message="There is not space for the load.";
+            createNewLoad=false;
+        }
+        //Evaluate the type of the load
+        else if(ship1.getTypeLoad1()==3 || ship1.getTypeLoad1()==3){
+            if(typeLoad==1){
+                message="There is a load type DANGEROUS in the ship, you can't add a load type PERISHABLE";
+                createNewLoad=false;
+            }
+        }
+        if(createNewLoad){
+            ship1.uploadLoad(numBoxes, weightBox, typeLoad, client);
+            message="The load was uploaded successfully";
+            if(ship1.getTypeLoad1()==0){
+                ship1.updateTypeLoads(0, typeLoad);
+            }else if(ship1.getTypeLoad2()==0 && typeLoad!=ship1.getTypeLoad1()){
+                ship1.updateTypeLoads(1, typeLoad);
+            }
+            client.updateKilos(requiredWeight);
+
+            client.updatePayment(calculatePaymentLoad(typeLoad, requiredWeight));
+        }
+        return message;
+
+    }
     /**
      * Name: searchClient
      * It searches a company in an array type Client
@@ -82,4 +117,28 @@ public class Company{
         }
         return position;
     } 
+
+    /**
+     * @return the clients
+     */
+    public Client[] getClients() {
+        return clients;
+    }
+
+    public int calculatePaymentLoad(int typeLoad, int kilos){
+        int payment;
+        if(typeLoad==Load.PERISHABLE){
+            payment=Load.PRICE_KILO_P*kilos;
+        }else if(typeLoad==Load.NO_PERISHABLE){
+            payment=Load.PRICE_KILO_NP*kilos;
+        }else{
+            payment=Load.PRICE_KILO_D*kilos;
+        }
+        return payment; 
+    }
+
+    public int convertGtoK(int grams){
+        int kilos=grams/1000;
+        return kilos;
+    }
 }
