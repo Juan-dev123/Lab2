@@ -1,5 +1,8 @@
 package ui;
 import java.util.Scanner;
+import java.util.GregorianCalendar;
+
+import model.Client;
 import model.Company;
 
 public class Main{
@@ -27,8 +30,8 @@ public class Main{
 		int option;
 		boolean quit=false;
 		while(!quit){
-			System.out.println("Choose a number:");
-			System.out.println("1 Register the clients");
+			System.out.println("Choose an option:");
+			System.out.println("1 Register a client");
 			System.out.println("2 Upload a load to the ship");
 			option=read.nextInt();
 			read.nextLine();
@@ -37,7 +40,7 @@ public class Main{
 					addClient();
 					break;
 				case 2:
-					addLoad();
+					addLoad();	
 					break;
 			}
 			String answer;
@@ -60,18 +63,59 @@ public class Main{
 	public void addClient(){
 		String name;
 		int crn;
-		String date;
-		String typeClient;
+		int day;
+		int month;
+		int year;
+		boolean firsTime;
+		GregorianCalendar date;
+		int typeClient=Client.NORMAL;
 		System.out.println("Enter the data of a client");
 		System.out.print("Enter the name:");
 		name=read.nextLine();
 		System.out.print("Enter the Commercial Register Number:");
 		crn=read.nextInt();
 		read.nextLine();
-		System.out.print("Enter the date:"); //Corregir la fecha
-		date=read.nextLine();
-		System.out.print("Enter the type of client:");
-		typeClient=read.nextLine();
+		System.out.println("Enter the registration issue date"); //Mirar febrero y años bisiestos...
+		System.out.print("Enter the day:");
+		firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			day=read.nextInt();
+			firsTime=false;
+		}while(!(day>=1 && day<=31));
+		System.out.println("Choose a month");
+		System.out.println("1 January");
+		System.out.println("2 February");
+		System.out.println("3 March");
+		System.out.println("4 April");
+		System.out.println("5 May");
+		System.out.println("6 June");
+		System.out.println("7 July");
+		System.out.println("8 August");
+		System.out.println("9 September");
+		System.out.println("10 October");
+		System.out.println("11 November");
+		System.out.println("12 December");
+		firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			month=read.nextInt();
+			firsTime=false;
+		}while(!(month>=1 && month<=12));
+		System.out.println("Enter the year:");
+		firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			year=read.nextInt();
+			firsTime=false;
+		}while(!(year>=1900));
+		date=new GregorianCalendar(year, month-1, day);
 		System.out.println(company.registerClient(name, crn, date, typeClient));
 	}
 
@@ -92,8 +136,15 @@ public class Main{
 		System.out.println("1 Perishable");
 		System.out.println("2 No Perishable");
 		System.out.println("3 Dangerous");
-		typeLoad=read.nextInt();
-		System.out.println(company.addLoad(numBoxes, weightBox, typeLoad, company.getClients()[option]));
+		boolean firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number 1/2/3:");
+			}
+			typeLoad=read.nextInt();
+			firsTime=false;
+		}while(!(typeLoad>=1 && typeLoad<=3));
+		System.out.println(company.addLoad(numBoxes, weightBox, typeLoad, option-1));
 		
 	}
 

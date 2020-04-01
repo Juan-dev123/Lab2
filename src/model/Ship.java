@@ -11,7 +11,7 @@ public class Ship{
 
     //Atributes
     private String name;
-    private int totalWeightLoads;
+    private double totalWeightLoads;
     private int[] typeLoads;
     private ArrayList<Load> loads; 
 
@@ -23,8 +23,8 @@ public class Ship{
         loads=new ArrayList<Load>();
     }
 
-    public void updateTotalWeightLoads(int load){
-        totalWeightLoads+=load;
+    public void updateTotalWeightLoads(double weight){
+        totalWeightLoads+=weight;
     }
     
     public void updateTypeLoads(int index, int typeLoad){
@@ -39,14 +39,14 @@ public class Ship{
         return typeLoads[1];
     }
 
-    public void uploadLoad(int numBoxes, int weightLoads, int typeLoad, Client client){
-        loads.add(new Load(numBoxes, weightLoads, typeLoad, client));
+    public void uploadLoad(int numBoxes, int weightBox, int typeLoad, Client client){
+        loads.add(new Load(numBoxes, weightBox, typeLoad, client));
     }
 
     /**
      * @return the totalWeightLoads
      */
-    public int getTotalWeightLoads() {
+    public double getTotalWeightLoads() {
         return totalWeightLoads;
     }
 }

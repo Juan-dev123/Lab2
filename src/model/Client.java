@@ -1,4 +1,5 @@
 package model;
+import java.util.GregorianCalendar;
 public class Client{
     //Constants
     public static final int NORMAL=1;
@@ -12,14 +13,14 @@ public class Client{
     //Atributes
     private String name;
     private int crn;
-    private String date;
-    private int quantityKilosLoad;
-    private int totalPayLoad;
-    private int totalPay;
-    private int totalQuantityKilos;
-    private String typeClient;
+    private GregorianCalendar date;
+    private double quantityKilosLoad;
+    private double totalPayLoad;
+    private double totalPay;
+    private double totalQuantityKilos;
+    private int typeClient;
 
-    public Client(String name, int crn, String date, String typeClient){
+    public Client(String name, int crn, GregorianCalendar date, int typeClient){
         this.name=name;
         this.crn=crn;
         this.date=date;
@@ -32,15 +33,22 @@ public class Client{
         return crn;
     }
 
-    public void updateKilos(int quantityKilos){
+    public void updateKilos(double quantityKilos){
         this.quantityKilosLoad+=quantityKilos;
         this.totalQuantityKilos+=quantityKilos; 
+        
     }
 
-    public void updatePayment(int pay){
+    public void updatePayment(double pay){
         totalPayLoad+=pay;
         totalPay+=pay;
     }
 
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
 }

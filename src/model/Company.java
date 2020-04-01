@@ -1,4 +1,5 @@
 package model;
+import java.util.GregorianCalendar;
 public class Company{
     //Constants
     public static final int NUM_CLIENTS=5;
@@ -14,11 +15,13 @@ public class Company{
     public Company(String name){
         this.name=name;
         clients=new Client[NUM_CLIENTS];
+        clients[0]=new Client("Postobon", 12345, new GregorianCalendar(1993, 3, 12), Client.NORMAL);
+        clients[1]=new Client("Tecnoquimicas", 12346, new GregorianCalendar(1981, 7, 10), Client.NORMAL);
         ship1=new Ship("El Pirata");
     }
 
    //Requirement 1
-   //Register a client         //Revisa este requerimientooooo
+   //Register a client         //Revisa la fecha
 
    /**
     * Name: registerClient
@@ -30,7 +33,7 @@ public class Company{
     * @param typeClient The category of the company
     * @return A message that says whether the company registered successfull.
     */
-    public String registerClient(String name, int crn, String date, String typeClient){
+    public String registerClient(String name, int crn, GregorianCalendar date, int typeClient){
         String message;
         if(searchClient(crn)!=null){
             message="The client with the Commercial Register Number:"+crn+" is already registered";
@@ -47,12 +50,12 @@ public class Company{
     }
 
     //Requirement 2
-    //Register a load to the ship  //Revisa este requerimientoooooooo
+    //Register a load to the ship 
 
-    public String addLoad(int numBoxes, int weightBox, int typeLoad, Client client){
+    public String addLoad(int numBoxes, int weightBox, int typeLoad, int positionClient){
         String message=""; 
         boolean createNewLoad=true;
-        int requiredWeight=convertGtoK(numBoxes*weightBox);
+        double requiredWeight=numBoxes*weightBox/1000; //Converts grams into kilos
         //Evaluate if there is space
         if(Ship.MAX_WEIGHT-ship1.getTotalWeightLoads() < requiredWeight){
             message="There is not space for the load.";
@@ -64,18 +67,23 @@ public class Company{
                 message="There is a load type DANGEROUS in the ship, you can't add a load type PERISHABLE";
                 createNewLoad=false;
             }
+        }else if(ship1.getTypeLoad1()==1 || ship1.getTypeLoad1()==1){
+            if(typeLoad==3){
+                message="There is a load type PERISHABLE in the ship, you can't add a load type DANGEROUS";
+                createNewLoad=false;
+            }
         }
         if(createNewLoad){
-            ship1.uploadLoad(numBoxes, weightBox, typeLoad, client);
+            ship1.uploadLoad(numBoxes, weightBox, typeLoad, clients[positionClient]);
+            ship1.updateTotalWeightLoads(requiredWeight);
             message="The load was uploaded successfully";
             if(ship1.getTypeLoad1()==0){
                 ship1.updateTypeLoads(0, typeLoad);
             }else if(ship1.getTypeLoad2()==0 && typeLoad!=ship1.getTypeLoad1()){
                 ship1.updateTypeLoads(1, typeLoad);
             }
-            client.updateKilos(requiredWeight);
-
-            client.updatePayment(calculatePaymentLoad(typeLoad, requiredWeight));
+            clients[positionClient].updateKilos(requiredWeight);
+            clients[positionClient].updatePayment(calculatePaymentLoad(typeLoad, requiredWeight));
         }
         return message;
 
@@ -125,8 +133,8 @@ public class Company{
         return clients;
     }
 
-    public int calculatePaymentLoad(int typeLoad, int kilos){
-        int payment;
+    public double calculatePaymentLoad(int typeLoad, double kilos){
+        double payment;
         if(typeLoad==Load.PERISHABLE){
             payment=Load.PRICE_KILO_P*kilos;
         }else if(typeLoad==Load.NO_PERISHABLE){
@@ -137,8 +145,4 @@ public class Company{
         return payment; 
     }
 
-    public int convertGtoK(int grams){
-        int kilos=grams/1000;
-        return kilos;
-    }
 }
