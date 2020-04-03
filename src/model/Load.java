@@ -10,8 +10,10 @@ public class Load{
 
     //Atributes
     private int numBoxes;
-    private int weightBox;
+    private double weightBox; //Weight in kilos
     private int typeLoad;
+    
+    //Relations
     private Client client;
 
     //Methods
@@ -22,8 +24,8 @@ public class Load{
         this.client=client;
     }
 
-    public int getTotalWeight(){
-        int totalWeight=numBoxes*weightBox;
+    public double getTotalWeight(){
+        double totalWeight=numBoxes*weightBox;
         return totalWeight;
     }
 

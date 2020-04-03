@@ -62,12 +62,12 @@ public class Company{
             createNewLoad=false;
         }
         //Evaluate the type of the load
-        else if(ship1.getTypeLoad1()==3 || ship1.getTypeLoad1()==3){
+        else if(ship1.getTypeLoad(0)==3 || ship1.getTypeLoad(1)==3){
             if(typeLoad==1){
                 message="There is a load type DANGEROUS in the ship, you can't add a load type PERISHABLE";
                 createNewLoad=false;
             }
-        }else if(ship1.getTypeLoad1()==1 || ship1.getTypeLoad1()==1){
+        }else if(ship1.getTypeLoad(0)==1 || ship1.getTypeLoad(1)==1){
             if(typeLoad==3){
                 message="There is a load type PERISHABLE in the ship, you can't add a load type DANGEROUS";
                 createNewLoad=false;
@@ -77,22 +77,53 @@ public class Company{
             ship1.uploadLoad(numBoxes, weightBox, typeLoad, clients[positionClient]);
             ship1.updateTotalWeightLoads(requiredWeight);
             message="The load was uploaded successfully";
-            if(ship1.getTypeLoad1()==0){
+            if(ship1.getTypeLoad(0)==0){
                 ship1.updateTypeLoads(0, typeLoad);
-            }else if(ship1.getTypeLoad2()==0 && typeLoad!=ship1.getTypeLoad1()){
+            }else if(ship1.getTypeLoad(1)==0 && typeLoad!=ship1.getTypeLoad(0)){
                 ship1.updateTypeLoads(1, typeLoad);
             }
             clients[positionClient].updateKilos(requiredWeight);
-            clients[positionClient].updatePayment(calculatePaymentLoad(typeLoad, requiredWeight));
+            clients[positionClient].updatePayment(calculatePaymentLoad(typeLoad, requiredWeight, positionClient));
         }
         return message;
 
     }
+
+    //Requirement 3
+    //Give the total value to pay to a client
+    public double getTotalPayClient(int positionClient){
+        double totalPay;
+        Client client=clients[positionClient];
+        totalPay=client.getTotalPayLoad();
+        return totalPay;
+    }
+
+
+    //Requirement 4
+    //Download the ship
+    public String downloadLoad(){
+        ship1.setTotalWeightLoads(0);
+        ship1.getLoads().clear();
+        ship1.updateTypeLoads(0, 0);
+        ship1.updateTypeLoads(1, 0);
+        boolean stop=false;
+        for(int i=0; i<clients.length && !stop; i++){
+            if(clients[i]==null){
+                stop=true;
+            }else{
+                clients[i].setTotalPayLoad(0);
+                clients[i].setQuantityKilosLoad(0);
+            }
+        }
+        String message="The load has been downloaded. The ship is ready for another trip";
+        return message;
+    }
+
     /**
      * Name: searchClient
      * It searches a company in an array type Client
      * @param crn The Commercial Register Number of the company
-     * @return The company with the Commercial Register Number entered
+     * @return The company with the Commercial Register Number entered. Whether the company don't exist return null.
      */
     public Client searchClient(int crn){ 
         Client client=null;
@@ -133,14 +164,28 @@ public class Company{
         return clients;
     }
 
-    public double calculatePaymentLoad(int typeLoad, double kilos){
+    public double calculatePaymentLoad(int typeLoad, double kilos, int positionClient){
+        Client client=clients[positionClient];
         double payment;
+        //Charge the value by kilo
         if(typeLoad==Load.PERISHABLE){
             payment=Load.PRICE_KILO_P*kilos;
         }else if(typeLoad==Load.NO_PERISHABLE){
             payment=Load.PRICE_KILO_NP*kilos;
         }else{
             payment=Load.PRICE_KILO_D*kilos;
+        }
+        //Make the discount if apply
+        if(client.getTypeClient()==Client.SILVER){
+            if(typeLoad==Load.PERISHABLE){
+                payment=payment-payment*Client.DISCOUNT_S;
+            }
+        }else if(client.getTypeClient()==Client.GOLD){
+            if(typeLoad==Load.PERISHABLE || typeLoad==Load.NO_PERISHABLE){
+                payment=payment-payment*Client.DISCOUNT_G;
+            }
+        }else if(client.getTypeClient()==Client.PLATINUM){
+            payment=payment-payment*Client.DISCOUNT_P;
         }
         return payment; 
     }

@@ -1,5 +1,4 @@
 package model;
-
 import java.util.ArrayList;
 
 public class Ship{
@@ -11,8 +10,10 @@ public class Ship{
 
     //Atributes
     private String name;
-    private double totalWeightLoads;
+    private double totalWeightLoads; //Weight in kilos
     private int[] typeLoads;
+
+    //Relations
     private ArrayList<Load> loads; 
 
     //Methods
@@ -31,12 +32,8 @@ public class Ship{
         typeLoads[index]=typeLoad;
     }
 
-    public int getTypeLoad1(){
-        return typeLoads[0];
-    }
-
-    public int getTypeLoad2(){
-        return typeLoads[1];
+    public int getTypeLoad(int index){
+        return typeLoads[index];
     }
 
     public void uploadLoad(int numBoxes, int weightBox, int typeLoad, Client client){
@@ -48,5 +45,19 @@ public class Ship{
      */
     public double getTotalWeightLoads() {
         return totalWeightLoads;
+    }
+
+    /**
+     * @param totalWeightLoads the totalWeightLoads to set
+     */
+    public void setTotalWeightLoads(double totalWeightLoads) {
+        this.totalWeightLoads = totalWeightLoads;
+    }
+
+    /**
+     * @return the loads
+     */
+    public ArrayList<Load> getLoads() {
+        return loads;
     }
 }

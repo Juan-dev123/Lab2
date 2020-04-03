@@ -7,7 +7,7 @@ public class Client{
     public static final int GOLD=3;
     public static final int PLATINUM=4;
     public static final double DISCOUNT_S=0.015;
-    public static final double DISCOUNT_O=0.03;
+    public static final double DISCOUNT_G=0.03;
     public static final double DISCOUNT_P=0.05;
 
     //Atributes
@@ -51,4 +51,37 @@ public class Client{
         return name;
     }
 
+    /**
+     * @return the date
+     */
+    public GregorianCalendar getDate() {
+        return date;
+    }
+
+    /**
+     * @return the typeClient
+     */
+    public int getTypeClient() {
+        return typeClient;
+    }
+
+    /**
+     * @return the totalPayLoad
+     */
+    public double getTotalPayLoad() {
+        return totalPayLoad;
+    }
+
+    /**
+     * @param quantityKilosLoad the quantityKilosLoad to set
+     */
+    public void setQuantityKilosLoad(double quantityKilosLoad) {
+        this.quantityKilosLoad = quantityKilosLoad;
+    }
+    /**
+     * @param totalPayLoad the totalPayLoad to set
+     */
+    public void setTotalPayLoad(double totalPayLoad) {
+        this.totalPayLoad = totalPayLoad;
+    }
 }
