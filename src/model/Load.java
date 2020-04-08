@@ -17,6 +17,13 @@ public class Load{
     private Client owner;
 
     //Methods
+    /**
+     * It initializes the atributes of a load.
+     * @param numBoxes The number of boxes. numBoxes>0.
+     * @param weightBox The weight in kilos of a box. weightBox>0.
+     * @param typeLoad The type o the load. typeLoad>=1 &amp;&amp; typeLoad<=3.
+     * @param owner The owner.
+     */
     public Load(int numBoxes, double weightBox, int typeLoad, Client owner){
         this.numBoxes=numBoxes;
         this.weightBox=weightBox;
@@ -24,6 +31,10 @@ public class Load{
         this.owner=owner;
     }
 
+    /**
+     * It multiplies the number of boxes with the weight of a box.
+     * @return The total weight of a load.
+     */
     public double getTotalWeight(){
         double totalWeight=numBoxes*weightBox;
         return totalWeight;
@@ -33,21 +44,21 @@ public class Load{
     //getters
 
     /**
-     * @return the numBoxes
+     * @return The number of boxes.
      */
     public int getNumBoxes() {
         return numBoxes;
     }
 
     /**
-     * @return the weightBox
+     * @return The weight of a box.
      */
     public double getWeightBox() {
         return weightBox;
     }
 
     /**
-     * @return the typeLoad
+     * @return The type of the load.
      */
     public int getTypeLoad() {
         return typeLoad;
@@ -59,21 +70,21 @@ public class Load{
     //setters
 
     /**
-     * @param numBoxes the numBoxes to set
+     * @param numBoxes The number of boxes to set
      */
     public void setNumBoxes(int numBoxes) {
         this.numBoxes = numBoxes;
     }
 
     /**
-     * @param weightBox the weightBox to set
+     * @param weightBox The weight of a box to set
      */
     public void setWeightBox(double weightBox) {
         this.weightBox = weightBox;
     }
 
     /**
-     * @param typeLoad the typeLoad to set
+     * @param typeLoad The type of the load to set
      */
     public void setTypeLoad(int typeLoad) {
         this.typeLoad = typeLoad;

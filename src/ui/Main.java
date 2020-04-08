@@ -57,7 +57,7 @@ public class Main{
 					getTotalWeightShip();
 					break;
 				case 6:
-					checkGetSail();
+					checkSetSail();
 					break;
 				case 7:
 					updateTypeClient();
@@ -82,23 +82,27 @@ public class Main{
 		
 	}
 	/**
-	 * It registers a client
+	 * It registers a client if it is possible
 	 */
 	public void addClient(){
-		String name;
-		int crn;
-		GregorianCalendar date;
-		int typeClient=1;
-		System.out.println("Enter the data of a client");
-		System.out.print("Enter the name:");
-		name=read.nextLine();
-		System.out.print("Enter the Commercial Register Number:");
-		crn=read.nextInt();
-		read.nextLine();
-		System.out.println("Enter the registration issue date"); 
-		date=enterDate();
-		System.out.println(company.registerClient(name, crn, date, typeClient));
-		System.out.println(date.getTime());
+		if(company.lookForSpace()){
+			String name;
+			int crn;
+			GregorianCalendar date;
+			int typeClient=1;
+			System.out.println("Enter the data of a client");
+			System.out.print("Enter the name:");
+			name=read.nextLine();
+			System.out.print("Enter the Commercial Register Number:");
+			crn=read.nextInt();
+			read.nextLine();
+			System.out.println("Enter the registration issue date"); 
+			date=enterDate();
+			System.out.println(company.registerClient(name, crn, date, typeClient));
+		}else{
+			System.out.println("There is not space. You can't add another client");
+		}
+		
 	}
 
 	/**
@@ -110,8 +114,15 @@ public class Main{
 		int weightBox;
 		int typeLoad;
 		System.out.println("Choose the owner of the load");
-		printClients();
-		option=read.nextInt();
+		int quantityClients=printClients();
+		boolean firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			option=read.nextInt();
+			firsTime=false;
+		}while(!(option>=1 && option<=quantityClients));
 		System.out.println("Enter the number of boxes");
 		numBoxes=read.nextInt();
 		System.out.println("Enter the weight in grams of a box");
@@ -120,7 +131,7 @@ public class Main{
 		System.out.println("1 Perishable");
 		System.out.println("2 No Perishable");
 		System.out.println("3 Dangerous");
-		boolean firsTime=true;
+		firsTime=true;
 		do{
 			if(!firsTime){
 				System.out.print("Enter a valid number 1/2/3:");
@@ -131,19 +142,29 @@ public class Main{
 		System.out.println(company.addLoad(numBoxes, weightBox, typeLoad, option-1));
 		
 	}
+
 	/**
 	 * It prints on screen what a client should pay
 	 */
 	public void giveTotalPay(){
+		int option;
 		System.out.println("Choose the client");
-		printClients();
-		int option=read.nextInt();
+		int quantityClients=printClients();
+		boolean firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			option=read.nextInt();
+			firsTime=false;
+		}while(!(option>=1 && option<=quantityClients));
 		String name=company.getClients()[option-1].getName();
 		int crn=company.getClients()[option-1].getCrn();
-		double totalPay=company.getClients()[option-1].getTotalPayLoad();
-		System.out.printf("The client %s with the Commercial Register Number: %d should pay until now: %.2f%n", name, crn, totalPay);
+		double totalPay=company.getTotalPayClient(option-1);
+		System.out.printf("The client %s with the Commercial Register Number:%d should pay until now:%.2f%n pesos", name, crn, totalPay);
 		
 	}
+
 	/**
 	 * It deletes all the information of the current load
 	 */
@@ -151,18 +172,35 @@ public class Main{
 		System.out.println(company.downloadLoad());
 	}
 
+	/**
+	 * It prints on screen the current total weight of the ship
+	 */
 	public void getTotalWeightShip(){
-		System.out.printf("The current total weight of the ship is: %.2f kilos", company.getTotalShipWeight());
+		System.out.printf("The current total weight of the ship is:%.2f kilos%n", company.getTotalShipWeight());
 	}
 
-	public void checkGetSail(){
+	/**
+	 * It prints on screen a message informing if the ship is able to set sail
+	 */
+	public void checkSetSail(){
 		System.out.printf(company.setSail(), company.getShip1().getLoads().size(), company.getShip1().getTotalWeightLoads());
 	}
 
+	/**
+	 * It update the category of a client if the client meets the requirements
+	 */
 	public void updateTypeClient(){
+		int option;
 		System.out.println("Choose the client");
-		printClients();
-		int option=read.nextInt();
+		int quantityClients=printClients();
+		boolean firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			option=read.nextInt();
+			firsTime=false;
+		}while(!(option>=1 && option<=quantityClients));
 		System.out.println("Choose the category");
 		System.out.println("1 Silver");
 		System.out.println("2 Gold");
@@ -173,13 +211,17 @@ public class Main{
 
 	/**
 	 * It prints all the registered clients
+	 * @return The quantity of clients registered.
 	 */
-	public void printClients(){
+	public int printClients(){
+		int quantityClients=0;
 		for(int i=0; i<company.getClients().length && company.getClients()[i]!=null; i++){
 			System.out.printf("%d ", i+1);
 			System.out.println(company.getClients()[i].getName());
 			System.out.println("  "+company.getClients()[i].getCrn());
+			quantityClients=i;
 		}
+		return quantityClients+1;
 	}
 
 	/**

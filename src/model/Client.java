@@ -20,6 +20,14 @@ public class Client{
     private double totalQuantityKilos;
     private int typeClient;
 
+    //Methods
+    /**
+     * It initializes the atributes of a client.
+     * @param name The name.
+     * @param crn The Commercial Register Number of the client.
+     * @param date The registration issue date.
+     * @param typeClient The category of the client. typeClient>=1 &amp;&amp; typeClient<=4.
+     */
     public Client(String name, int crn, GregorianCalendar date, int typeClient){
         this.name=name;
         this.crn=crn;
@@ -27,12 +35,20 @@ public class Client{
         this.typeClient=typeClient;
     }
 
+    /**
+     * It adds kilos to the client.
+     * @param quantityKilos The quantity of kilos.
+     */
     public void updateKilos(double quantityKilos){
         this.quantityKilosLoad+=quantityKilos;
         this.totalQuantityKilos+=quantityKilos; 
         
     }
 
+    /**
+     * It adds money to pay to the client.
+     * @param pay The money to pay.
+     */
     public void updatePayment(double pay){
         totalPayLoad+=pay;
         totalPay+=pay;
@@ -41,49 +57,49 @@ public class Client{
     //---------------------------------------------------------------
     //getters
     /**
-     * @return the name
+     * @return The name.
      */
     public String getName() {
         return name;
     }
     /**
-     * @return the crn
+     * @return The Commercial Register Number.
      */
     public int getCrn() {
         return crn;
     }
     /**
-     * @return the date
+     * @return The registration issue date.
      */
     public GregorianCalendar getDate() {
         return date;
     }
     /**
-     * @return the quantityKilosLoad
+     * @return The quantity of kilos in the current journey.
      */
     public double getQuantityKilosLoad() {
         return quantityKilosLoad;
     }
     /**
-     * @return the totalPayLoad
+     * @return What the client should pay for the loads of the current journey.
      */
     public double getTotalPayLoad() {
         return totalPayLoad;
     }
     /**
-     * @return the totalPay
+     * @return All what the client has paid.
      */
     public double getTotalPay() {
         return totalPay;
     }
     /**
-     * @return the totalQuantityKilos
+     * @return The total quantity of kilos of a client has transported.
      */
     public double getTotalQuantityKilos() {
         return totalQuantityKilos;
     }
     /**
-     * @return the typeClient
+     * @return The type of client.
      */
     public int getTypeClient() {
         return typeClient;
@@ -95,49 +111,49 @@ public class Client{
     //---------------------------------------------------------------
     //setters
     /**
-     * @param name the name to set
+     * @param name The name to set.
      */
     public void setName(String name) {
         this.name = name;
     }
     /**
-     * @param crn the crn to set
+     * @param crn The Commercial Register Number to set. crn>=0.
      */
     public void setCrn(int crn) {
         this.crn = crn;
     }
     /**
-     * @param date the date to set
+     * @param date The registration issue date to set.
      */
     public void setDate(GregorianCalendar date) {
         this.date = date;
     }
     /**
-     * @param quantityKilosLoad the quantityKilosLoad to set
+     * @param quantityKilosLoad The quantity of kilos in the current journey to set. quantityKilosLoad>=0.
      */
     public void setQuantityKilosLoad(double quantityKilosLoad) {
         this.quantityKilosLoad = quantityKilosLoad;
     }
     /**
-     * @param totalPayLoad the totalPayLoad to set
+     * @param totalPayLoad What the client should pay for the loads of the current journey to set. totalPayLoad>=0.
      */
     public void setTotalPayLoad(double totalPayLoad) {
         this.totalPayLoad = totalPayLoad;
     }
     /**
-     * @param totalPay the totalPay to set
+     * @param totalPay All what the client has paid to set. totalPay>=0.
      */
     public void setTotalPay(double totalPay) {
         this.totalPay = totalPay;
     }
     /**
-     * @param totalQuantityKilos the totalQuantityKilos to set
+     * @param totalQuantityKilos The total quantity of kilos of a client has transported to set. totalQuantityKilos>=0.
      */
     public void setTotalQuantityKilos(double totalQuantityKilos) {
         this.totalQuantityKilos = totalQuantityKilos;
     }
     /**
-     * @param typeClient the typeClient to set
+     * @param typeClient The type of client to set. typeClient>=1 &amp;&amp; typeClient<=4.
      */
     public void setTypeClient(int typeClient) {
         this.typeClient = typeClient;
