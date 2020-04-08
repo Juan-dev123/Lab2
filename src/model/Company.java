@@ -19,8 +19,8 @@ public class Company{
     public Company(String name){
         this.name=name;
         clients=new Client[NUM_CLIENTS];
-        clients[0]=new Client("Postobon", 12345, new GregorianCalendar(1993, 3, 12), Client.NORMAL);
-        clients[1]=new Client("Tecnoquimicas", 12346, new GregorianCalendar(1981, 7, 10), Client.NORMAL);
+        clients[0]=new Client("Postobon", 12345, new GregorianCalendar(1993, 3, 12));
+        clients[1]=new Client("Tecnoquimicas", 12346, new GregorianCalendar(1981, 7, 10));
         ship1=new Ship("El Pirata");
     }
     //----------------------------------------------------------------------------------------------------
@@ -32,17 +32,16 @@ public class Company{
         * @param name The name of the client.
         * @param crn The Commercial Register Number of the client.
         * @param date The registration issue date.
-        * @param typeClient The category of the client. typeClient>=1 &amp;&amp; typeClient<=4.
         * @return A message that says if the client registered successfull.
     */
-    public String registerClient(String name, int crn, GregorianCalendar date, int typeClient){
+    public String registerClient(String name, int crn, GregorianCalendar date){
         String message;
         //Check if the client is already registered.
         if(searchClient(crn)!=null){
             message="The client with the Commercial Register Number:"+crn+" is already registered";
         }else{
             int positionAvailable=getPositionEmpty(clients);
-            clients[positionAvailable]=new Client(name, crn, date, typeClient);
+            clients[positionAvailable]=new Client(name, crn, date);
             message="The client with the Commercial Register Number:"+crn+" has been registered successfully";
         }
         return message;
@@ -63,25 +62,27 @@ public class Company{
     public String addLoad(int numBoxes, int weightBox, int typeLoad, int positionClient){
         String message=""; 
         boolean createNewLoad=true;
-        double requiredWeight=numBoxes*weightBox/1000; //Converts grams into kilos
+        double requiredWeight=(double)numBoxes*(double)weightBox/(double)1000; //Converts grams into kilos
         //Evaluate if there is space in the ship
         if(Ship.MAX_WEIGHT-ship1.getTotalWeightLoads() < requiredWeight){
             message="There is not space for the load.";
             createNewLoad=false;
         }
         //Evaluate the type of the load
+        //If there is a load type dangerous in the ship
         else if(ship1.getTypeLoads(0)==3 || ship1.getTypeLoads(1)==3){
             if(typeLoad==1){
                 message="There is a load type DANGEROUS in the ship, you can't add a load type PERISHABLE";
                 createNewLoad=false;
             }
+        //If there is a load type perishable in the ship
         }else if(ship1.getTypeLoads(0)==1 || ship1.getTypeLoads(1)==1){
             if(typeLoad==3){
                 message="There is a load type PERISHABLE in the ship, you can't add a load type DANGEROUS";
                 createNewLoad=false;
             }
         }
-
+    
         if(createNewLoad){
             ship1.uploadLoad(numBoxes, weightBox, typeLoad, clients[positionClient]);
             ship1.updateTotalWeightLoads(requiredWeight);
@@ -91,14 +92,17 @@ public class Company{
             }else if(ship1.getTypeLoads(1)==0 && typeLoad!=ship1.getTypeLoads(0)){
                 ship1.setTypeLoads(1, typeLoad);
             }
+            //Add the kilos of the load to the client
             clients[positionClient].updateKilos(requiredWeight);
+            //Charge the load to the client
             clients[positionClient].updatePayment(calculatePaymentLoad(typeLoad, requiredWeight, positionClient));
         }
-
+        
         //The next part doesn't belong to the requirement, but I think that could be helpful for Morgan
+        //Inform if a client is able to update its category
         if(clients[positionClient].getTotalPay()>=5000000 && clients[positionClient].getTypeClient()!=Client.PLATINUM){
             message+="\nIf you want you can upload this client to Platinum";
-        }else if((clients[positionClient].getTotalQuantityKilos()>=55000 || clients[positionClient].getTotalPay()>=2000000) && clients[positionClient].getTypeClient()==Client.SILVER || clients[positionClient].getTypeClient()==Client.NORMAL){
+        }else if((clients[positionClient].getTotalQuantityKilos()>=55000 || clients[positionClient].getTotalPay()>=2000000) && (clients[positionClient].getTypeClient()==Client.SILVER || clients[positionClient].getTypeClient()==Client.NORMAL)){
             message+="\nIf you want you can upload this client to Gold";
         }else if(clients[positionClient].getTotalQuantityKilos()>=35000 && clients[positionClient].getTypeClient()==Client.NORMAL){
             message+="\nIf you want you can upload this client to Silver";
@@ -172,9 +176,7 @@ public class Company{
      */
     public String setSail(){
         String message;
-        if(ship1.getLoads().size()>=Ship.MIN_LOADS){
-            message="The ship is able to set sail%nThere are %d loads in the ship with a total weight of %.2f kilos%n";
-        }else if(ship1.getTotalWeightLoads()>Ship.MIN_WEIGHT){
+        if(ship1.getLoads().size()>=Ship.MIN_LOADS || ship1.getTotalWeightLoads()>Ship.MIN_WEIGHT){
             message="The ship is able to set sail%nThere are %d loads in the ship with a total weight of %.2f kilos%n";
         }else{
             message="The ship is not able to set sail%nThere are %d loads in the ship with a total weight of %.2f kilos%n";

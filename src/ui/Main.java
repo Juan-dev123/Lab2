@@ -89,16 +89,22 @@ public class Main{
 			String name;
 			int crn;
 			GregorianCalendar date;
-			int typeClient=1;
 			System.out.println("Enter the data of a client");
 			System.out.print("Enter the name:");
 			name=read.nextLine();
 			System.out.print("Enter the Commercial Register Number:");
-			crn=read.nextInt();
+			boolean firsTime=true;
+			do{
+				if(!firsTime){
+					System.out.print("Enter a valid Commercial Register Number:");
+				}
+				crn=read.nextInt();
+				firsTime=false;
+			}while(crn<1);
 			read.nextLine();
 			System.out.println("Enter the registration issue date"); 
 			date=enterDate();
-			System.out.println(company.registerClient(name, crn, date, typeClient));
+			System.out.println(company.registerClient(name, crn, date));
 		}else{
 			System.out.println("There is not space. You can't add another client");
 		}
@@ -124,9 +130,23 @@ public class Main{
 			firsTime=false;
 		}while(!(option>=1 && option<=quantityClients));
 		System.out.println("Enter the number of boxes");
-		numBoxes=read.nextInt();
+		firsTime=true;
+			do{
+				if(!firsTime){
+					System.out.print("Enter a valid number:");
+				}
+				numBoxes=read.nextInt();
+				firsTime=false;
+			}while(numBoxes<1);
 		System.out.println("Enter the weight in grams of a box");
-		weightBox=read.nextInt();
+		firsTime=true;
+			do{
+				if(!firsTime){
+					System.out.print("Enter a valid number:");
+				}
+				weightBox=read.nextInt();
+				firsTime=false;
+			}while(weightBox<1);
 		System.out.println("Choose the type of load");
 		System.out.println("1 Perishable");
 		System.out.println("2 No Perishable");
@@ -134,7 +154,7 @@ public class Main{
 		firsTime=true;
 		do{
 			if(!firsTime){
-				System.out.print("Enter a valid number 1/2/3:");
+				System.out.print("Enter a valid number:");
 			}
 			typeLoad=read.nextInt();
 			firsTime=false;
@@ -191,6 +211,7 @@ public class Main{
 	 */
 	public void updateTypeClient(){
 		int option;
+		int category;
 		System.out.println("Choose the client");
 		int quantityClients=printClients();
 		boolean firsTime=true;
@@ -205,7 +226,14 @@ public class Main{
 		System.out.println("1 Silver");
 		System.out.println("2 Gold");
 		System.out.println("3 Platinum");
-		int category=read.nextInt();
+		firsTime=true;
+		do{
+			if(!firsTime){
+				System.out.print("Enter a valid number:");
+			}
+			category=read.nextInt();
+			firsTime=false;
+		}while(!(category>=1 && category<=3));
 		System.out.println(company.updateCategory(category+1, option-1));
 	}
 
@@ -264,11 +292,11 @@ public class Main{
 		firsTime=true;
 		do{
 			if(!firsTime){
-				System.out.print("Enter a valid number for a year:");
+				System.out.print("Enter a valid number for a year (major than 1900):");
 			}
 			year=read.nextInt();
 			firsTime=false;
-		}while(!(year>=1900 && year<=2020));
+		}while(!(year>1900 && year<=2020));
 		firsTime=true;
 		//Check if a year is a leap year
 		boolean leapYear=leapYear(year);

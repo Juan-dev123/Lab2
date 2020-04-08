@@ -26,13 +26,12 @@ public class Client{
      * @param name The name.
      * @param crn The Commercial Register Number of the client.
      * @param date The registration issue date.
-     * @param typeClient The category of the client. typeClient>=1 &amp;&amp; typeClient<=4.
      */
-    public Client(String name, int crn, GregorianCalendar date, int typeClient){
+    public Client(String name, int crn, GregorianCalendar date){
         this.name=name;
         this.crn=crn;
         this.date=date;
-        this.typeClient=typeClient;
+        this.typeClient=Client.NORMAL;
     }
 
     /**
