@@ -28,16 +28,22 @@ public class Ship{
         totalWeightLoads+=weight;
     }
     
-    public void updateTypeLoads(int index, int typeLoad){
-        typeLoads[index]=typeLoad;
-    }
-
-    public int getTypeLoad(int index){
-        return typeLoads[index];
-    }
-
     public void uploadLoad(int numBoxes, int weightBox, int typeLoad, Client client){
         loads.add(new Load(numBoxes, weightBox, typeLoad, client));
+    }
+
+    
+
+   
+
+    //---------------------------------------------------------------
+    //getters
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -47,11 +53,8 @@ public class Ship{
         return totalWeightLoads;
     }
 
-    /**
-     * @param totalWeightLoads the totalWeightLoads to set
-     */
-    public void setTotalWeightLoads(double totalWeightLoads) {
-        this.totalWeightLoads = totalWeightLoads;
+    public int getTypeLoad(int index){
+        return typeLoads[index];
     }
 
     /**
@@ -60,4 +63,26 @@ public class Ship{
     public ArrayList<Load> getLoads() {
         return loads;
     }
+
+    //---------------------------------------------------------------
+    //setters
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+    * @param totalWeightLoads the totalWeightLoads to set
+    */
+    public void setTotalWeightLoads(double totalWeightLoads) {
+        this.totalWeightLoads = totalWeightLoads;
+    }
+
+    public void setTypeLoads(int index, int typeLoad){
+        typeLoads[index]=typeLoad;
+    }
+    
 }

@@ -14,14 +14,14 @@ public class Load{
     private int typeLoad;
     
     //Relations
-    private Client client;
+    private Client owner;
 
     //Methods
-    public Load(int numBoxes, int weightBox, int typeLoad, Client client){
+    public Load(int numBoxes, double weightBox, int typeLoad, Client owner){
         this.numBoxes=numBoxes;
         this.weightBox=weightBox;
         this.typeLoad=typeLoad;
-        this.client=client;
+        this.owner=owner;
     }
 
     public double getTotalWeight(){
@@ -29,11 +29,54 @@ public class Load{
         return totalWeight;
     }
 
+    //---------------------------------------------------------------
+    //getters
+
+    /**
+     * @return the numBoxes
+     */
+    public int getNumBoxes() {
+        return numBoxes;
+    }
+
+    /**
+     * @return the weightBox
+     */
+    public double getWeightBox() {
+        return weightBox;
+    }
+
     /**
      * @return the typeLoad
      */
     public int getTypeLoad() {
         return typeLoad;
+    }
+
+
+
+    //---------------------------------------------------------------
+    //setters
+
+    /**
+     * @param numBoxes the numBoxes to set
+     */
+    public void setNumBoxes(int numBoxes) {
+        this.numBoxes = numBoxes;
+    }
+
+    /**
+     * @param weightBox the weightBox to set
+     */
+    public void setWeightBox(double weightBox) {
+        this.weightBox = weightBox;
+    }
+
+    /**
+     * @param typeLoad the typeLoad to set
+     */
+    public void setTypeLoad(int typeLoad) {
+        this.typeLoad = typeLoad;
     }
 
 }

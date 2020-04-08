@@ -13,7 +13,9 @@ public class Main{
 		Main main=new Main();	
 		main.menu();
 	}
-	//A los constructores se les hace contrato?////////////////////////////////////////
+	/**
+	 * It creates the company
+	 */
 	public Main(){
 		read=new Scanner(System.in);
 		System.out.println("Enter the name of your company");
@@ -21,7 +23,6 @@ public class Main{
 		company=new Company(name);
 	}
 	/**
-	 * Name: menu
 	 * It prints the menu on the console.
 	 */
 	public void menu(){
@@ -33,8 +34,12 @@ public class Main{
 			System.out.println("2 Upload a load to the ship");
 			System.out.println("3 Give the total to pay of a client");
 			System.out.println("4 Download the ship");
+			System.out.println("5 Give the total weight that there is in the ship");
+			System.out.println("6 Check if the ship is able to load");
+			System.out.println("7 Update the category of a client");
 			option=read.nextInt();
 			read.nextLine();
+			clean();
 			switch (option) {
 				case 1:
 					addClient();
@@ -48,6 +53,19 @@ public class Main{
 				case 4:
 					downloadShip();
 					break;
+				case 5:
+					getTotalWeightShip();
+					break;
+				case 6:
+					checkGetSail();
+					break;
+				case 7:
+					updateTypeClient();
+					break;
+				default:
+					System.out.println("Invalid option");
+					break;
+
 			}
 			String answer;
 			System.out.print("Do you want to run another app?, yes or not: ");
@@ -59,12 +77,12 @@ public class Main{
 			if(answer.equalsIgnoreCase("not")){
 				quit = true;
 			}
+			clean();
 		}
 		
 	}
 	/**
-	 * Name: addClient
-	 * It registers and adds a client
+	 * It registers a client
 	 */
 	public void addClient(){
 		String name;
@@ -80,8 +98,12 @@ public class Main{
 		System.out.println("Enter the registration issue date"); 
 		date=enterDate();
 		System.out.println(company.registerClient(name, crn, date, typeClient));
+		System.out.println(date.getTime());
 	}
 
+	/**
+	 * It adds a load to the ship and also it registers the load in the owner
+	 */
 	public void addLoad(){
 		int option;
 		int numBoxes;
@@ -109,7 +131,9 @@ public class Main{
 		System.out.println(company.addLoad(numBoxes, weightBox, typeLoad, option-1));
 		
 	}
-
+	/**
+	 * It prints on screen what a client should pay
+	 */
 	public void giveTotalPay(){
 		System.out.println("Choose the client");
 		printClients();
@@ -120,11 +144,36 @@ public class Main{
 		System.out.printf("The client %s with the Commercial Register Number: %d should pay until now: %.2f%n", name, crn, totalPay);
 		
 	}
-
+	/**
+	 * It deletes all the information of the current load
+	 */
 	public void downloadShip(){
 		System.out.println(company.downloadLoad());
 	}
 
+	public void getTotalWeightShip(){
+		System.out.printf("The current total weight of the ship is: %.2f kilos", company.getTotalShipWeight());
+	}
+
+	public void checkGetSail(){
+		System.out.printf(company.setSail(), company.getShip1().getLoads().size(), company.getShip1().getTotalWeightLoads());
+	}
+
+	public void updateTypeClient(){
+		System.out.println("Choose the client");
+		printClients();
+		int option=read.nextInt();
+		System.out.println("Choose the category");
+		System.out.println("1 Silver");
+		System.out.println("2 Gold");
+		System.out.println("3 Platinum");
+		int category=read.nextInt();
+		System.out.println(company.updateCategory(category+1, option-1));
+	}
+
+	/**
+	 * It prints all the registered clients
+	 */
 	public void printClients(){
 		for(int i=0; i<company.getClients().length && company.getClients()[i]!=null; i++){
 			System.out.printf("%d ", i+1);
@@ -133,6 +182,10 @@ public class Main{
 		}
 	}
 
+	/**
+	 * It registers a date making the required verifications 
+	 * @return The date registered
+	 */
 	public GregorianCalendar enterDate(){
 		boolean firsTime;
 		int day=0;
@@ -224,6 +277,11 @@ public class Main{
 		return date;
 	}
 
+	/**
+	 * It checks if the year entered is a leap year
+	 * @param year The year
+	 * @return	True if the year is a leap year.<br>False if it doesn't.
+	 */
 	public boolean leapYear(int year){
 		boolean leapYear;
 		if(year%4==0){
@@ -240,6 +298,16 @@ public class Main{
 			leapYear=false;
 		}
 		return leapYear;
+	}
+
+	/**
+	 * Cleans the screen of the console
+	 */
+	public void clean(){
+		try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+        }
 	}
 
 }

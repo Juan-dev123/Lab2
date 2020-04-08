@@ -26,12 +26,6 @@ public class Client{
         this.date=date;
         this.typeClient=typeClient;
     }
-    /**
-     * @return the nrm
-     */
-    public int getCrn() {
-        return crn;
-    }
 
     public void updateKilos(double quantityKilos){
         this.quantityKilosLoad+=quantityKilos;
@@ -44,20 +38,50 @@ public class Client{
         totalPay+=pay;
     }
 
+    //---------------------------------------------------------------
+    //getters
     /**
      * @return the name
      */
     public String getName() {
         return name;
     }
-
+    /**
+     * @return the crn
+     */
+    public int getCrn() {
+        return crn;
+    }
     /**
      * @return the date
      */
     public GregorianCalendar getDate() {
         return date;
     }
-
+    /**
+     * @return the quantityKilosLoad
+     */
+    public double getQuantityKilosLoad() {
+        return quantityKilosLoad;
+    }
+    /**
+     * @return the totalPayLoad
+     */
+    public double getTotalPayLoad() {
+        return totalPayLoad;
+    }
+    /**
+     * @return the totalPay
+     */
+    public double getTotalPay() {
+        return totalPay;
+    }
+    /**
+     * @return the totalQuantityKilos
+     */
+    public double getTotalQuantityKilos() {
+        return totalQuantityKilos;
+    }
     /**
      * @return the typeClient
      */
@@ -65,13 +89,29 @@ public class Client{
         return typeClient;
     }
 
-    /**
-     * @return the totalPayLoad
-     */
-    public double getTotalPayLoad() {
-        return totalPayLoad;
-    }
+    
+   
 
+    //---------------------------------------------------------------
+    //setters
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    /**
+     * @param crn the crn to set
+     */
+    public void setCrn(int crn) {
+        this.crn = crn;
+    }
+    /**
+     * @param date the date to set
+     */
+    public void setDate(GregorianCalendar date) {
+        this.date = date;
+    }
     /**
      * @param quantityKilosLoad the quantityKilosLoad to set
      */
@@ -84,4 +124,24 @@ public class Client{
     public void setTotalPayLoad(double totalPayLoad) {
         this.totalPayLoad = totalPayLoad;
     }
+    /**
+     * @param totalPay the totalPay to set
+     */
+    public void setTotalPay(double totalPay) {
+        this.totalPay = totalPay;
+    }
+    /**
+     * @param totalQuantityKilos the totalQuantityKilos to set
+     */
+    public void setTotalQuantityKilos(double totalQuantityKilos) {
+        this.totalQuantityKilos = totalQuantityKilos;
+    }
+    /**
+     * @param typeClient the typeClient to set
+     */
+    public void setTypeClient(int typeClient) {
+        this.typeClient = typeClient;
+    }
+
+ 
 }
